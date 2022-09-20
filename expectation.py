@@ -224,60 +224,16 @@ def gen_dat(dic, file):
     pf.plot_fit(t1, Np2, TEMP,dic,fd= [w,da], dat =  data)
 
 
-def SCALE(dic, file2):
-    data = dio.get_dat(file2)
-    t1, N1, T1 = dio.read_dat("DAT_FILES/tbm_test5.txt")
-    tw = t1 -(t1[0] -2.0)
-    w, da = pf.fit_da(data, t1)
-    #pf.check([[t1,NN1, "reg"], [tw,N_p, "mod"]])
-    mask = np.logical_and(w>=4,w<52)
-    sc2 = pf.get_scale(N1[mask], da[mask])
-    Np2 = (N1 + sc2[2])*sc2[0] + sc2[1]
-    pf.check([[tw,Np2, "tbm"], [w,da, "str"]])
-    dio.write_dat(tw, Np2, "DAT_FILES/scale.txt", TEMP)
-    pf.plot_fit(tw, Np2, TEMP,dic,fd= [w,da], dat =  data)
-
-
-def NoDeg(dic):
-    t1, N1 = EXP2(E_dict)
-    dio.write_dat(t1, N1, "DAT_FILES/NoDeg{0:.2f}.txt".format(dic['Ed'][0]), TEMP)
-    pf.check([[t1, N1, "?"]])
     
 
-def junk():
-    plt_list = []
-    nums = [0.40,0.58,0.67]
-    labs = [0.41,0.57, 0.67]
-    sc = [1.0, 0.95, 0.85]
-    for e in [0,1,2]:
-        degfile = ratio.format(nums[e])
-        t, n, T = dio.read_dat(degfile)
-        t = t[11:]
-        N = n[11:]
-        N= N/N[0]
-        N = (sc[e]*(1.0 - N)*(2.9/0.4)) + 1.0
-        plt_list.append([t,N,[labs[e],0.18]])
-    return plt_list
+
 
 
 if __name__=='__main__':
-    scale = [1.18, 0.7]
-    tz = 2.0
     file = "../../Zimanyi/Data/ASU-2021.xlsx"
-    ratio = "DAT_FILES/NoDeg{0:.2f}.txt"
-    curr_tbm = "DAT_FILES/tbm_test5.txt"
     start = time.time()
     E_dict = {'N' : 3.35, 'Eb': [1.31, 0.30], 'Er' : [0.28, 0.18], 'Ed' : [0.41, 0.18], 't0' : tz, 'tf': tz + 48.0, 'C' : 1.0}
-    m_vals = junk()
-    #SCALE(E_dict, file)
-    pf.EXP_multi(m_vals, E_dict)
-    #NoDeg(E_dict)
-    #gen_dat(E_dict, file)
-    #t, n, T = dio.read_dat("the_shiznit.txt")
-    #pf.plot_fit(t, n, T,E_dict, dat = dio.get_dat(file))
-    #t1, n1, T1 = dio.read_dat("DAT_FILES/tbm_test5.txt")
-    #pf.plot_fit(t1, n1, T1,E_dict, dat = dio.get_dat(file))
-    #Hand_fit(curr_tbm,file)
+
 
 
 
