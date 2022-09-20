@@ -306,8 +306,7 @@ def plot_fit(tvals, Nvals,TEMP,dic,fd = None, dat = None):
     if(dat != None):
         ax.scatter(dat[0], dat[1],marker = '^',color = 'darkcyan',s=320, label= "Data")
     if( fd != None):
-        xxxx=0
-        #ax.plot(fd[0],fd[1] ,linestyle = '--',color = (.18,.18,.31), label="Stretched Exponential Fit to Data")
+        ax.plot(fd[0],fd[1] ,linestyle = '--',color = (.18,.18,.31), label="Stretched Exponential Fit to Data")
     p_delta = 10.68*0.2
     bds = [[-100.0,0,0.0,0.0], [100.0,1000.0 , 1.0, 100]]
     par, cov = opt.curve_fit(str_exp, tvals, Nvals, p0= [10.0, 10.0, 0.15, 1.0],bounds = bds, maxfev= 10000000)
@@ -318,9 +317,6 @@ def plot_fit(tvals, Nvals,TEMP,dic,fd = None, dat = None):
     plot_t = tvals[wmask]
     plot_N = Nvals[wmask]
     plot_y = y[wmask]
-    #plot_N[0] = 0.89
-    #plot_t2 = plot_t
-    #plot_t2[0] = 2.1
     ax.plot(plot_t - 0.3 , plot_N, label = "SolDeg")
     ax.plot(plot_t,plot_y,linestyle = '-.',linewidth = 4.0, color = 'crimson', label="Stretched Exponential Fit")
     #ax.set_xscale("log")
@@ -334,7 +330,7 @@ def plot_fit(tvals, Nvals,TEMP,dic,fd = None, dat = None):
     ax.text(0.05, 0.65, txt.format(par[1], par[2]),fontsize = 18, transform=ax.transAxes)
     #ax.set_xticks(np.arange(0,48,4.0))
     plt.legend(fontsize = 18)
-    plt.savefig("SolDeg_fit.png")
+    plt.savefig("{}.png".format("test"))
     plt.show(block = True)
 
 
@@ -364,27 +360,7 @@ def check(vals):
     plt.show(block=True)
 
 
-def da_real(dat1, dat2):
-#[ 2.  4.  6.  8. 12. 14. 17. 21. 24. 26. 30. 33. 39. 45.]
-#[ 2.  4.  6.  8. 12. 14. 17. 21. 24. 26. 28. 30. 33. 36. 39. 42. 45.]
-    w1, n = dat1
-    w2, t = dat2
-    mask = np.isin(w2, w1)
-    #mask = np.logical_and(mask1, mask2)
-    tau = 2.0 - t
-    print(tau[0])
-    print(n[0])
-    s = get_scale(tau[mask][10:],n[10:])
-    plt.scatter(w1,n)
-    plt.scatter(w2, tau*s[0] +s[1])
-    plt.show(block = True)
 
-def FU(dat, tau):
-    x=np.arange(0.0,46.0,1.0)
-    y = decay(x,3.2,tau,1.0)
-    plt.scatter(dat[0],dat[1])
-    plt.plot(x, y)
-    plt.show(block = True)
 
 
 
